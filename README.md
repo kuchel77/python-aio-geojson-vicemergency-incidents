@@ -1,7 +1,7 @@
 # python-aio-geojson-vicemergency-incidents
 
-[![PyPi](https://img.shields.io/pypi/v/aio-geojson-nsw-rfs-incidents.svg)](https://pypi.python.org/pypi/aio-geojson-vicemergency-incidents)
-[![Version](https://img.shields.io/pypi/pyversions/aio-geojson-nsw-rfs-incidents.svg)](https://pypi.python.org/pypi/aio-geojson-vicemergency-incidents)
+[![PyPi](https://img.shields.io/pypi/v/aio-geojson-vicemergency-incidents.svg)](https://pypi.python.org/pypi/aio-geojson-vicemergency-incidents)
+[![Version](https://img.shields.io/pypi/pyversions/aio-geojson-vicemegency-incidents.svg)](https://pypi.python.org/pypi/aio-geojson-vicemergency-incidents)
 
 This library provides convenient async access to the [VIC Emergency Website](https://www.emergency.vic.gov.au) incidents feed.
 
