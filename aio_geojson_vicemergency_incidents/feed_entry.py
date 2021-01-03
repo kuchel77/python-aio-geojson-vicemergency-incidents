@@ -58,7 +58,8 @@ class VICEmergencyIncidentsFeedEntry(FeedEntry):
         if publication_date:
             # Parse the date. Sometimes that have Z as the timezone, which isn't like by %z.
             if publication_date[-1] == 'Z':
-                date_struct = strptime(publication_date, "%Y-%m-%dT%H:%M:%S.000Z")
+                print(publication_date[:-5])
+                date_struct = strptime(publication_date[:-5], "%Y-%m-%dT%H:%M:%S")
             else:
                 date_struct = strptime(publication_date, "%Y-%m-%dT%H:%M:%S%z")
 
