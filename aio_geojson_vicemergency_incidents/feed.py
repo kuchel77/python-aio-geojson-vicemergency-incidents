@@ -20,19 +20,21 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
                  websession: ClientSession,
                  home_coordinates: Tuple[float, float],
                  filter_radius: float = None,
-                 filter_categories: List[str] = None):
+                 filter_inc_categories: List[str] = None,
+                 filter_exc_categories: List[str] = None):
         """Initialise this service."""
         super().__init__(websession,
                          home_coordinates,
                          URL,
                          filter_radius=filter_radius)
-        self._filter_categories = filter_categories
+        self._filter_inc_categories = filter_inc_categories
+        self._filter_exc_categories = filter_exc_categories
 
     def __repr__(self):
         """Return string representation of this feed."""
         return '<{}(home={}, url={}, radius={}, categories={})>'.format(
             self.__class__.__name__, self._home_coordinates, self._url,
-            self._filter_radius, self._filter_categories)
+            self._filter_radius, self._filter_inc_categories, self._filter_exc_categories)
 
     def _new_entry(self, home_coordinates: Tuple[float, float], feature,
                    global_data: Dict) -> VICEmergencyIncidentsFeedEntry:
@@ -44,10 +46,14 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
             -> List[VICEmergencyIncidentsFeedEntry]:
         """Filter the provided entries."""
         filtered_entries = super()._filter_entries(entries)
-        if self._filter_categories:
+        if self._filter_inc_categories:
             filtered_entries = list(filter(lambda entry:
-                                    entry.category in self._filter_categories,
+                                    entry.category1 in self._filter_inc_categories,
                                     filtered_entries))
+        if self._filter_exc_categories:
+            filtered_entries = list(filter(lambda entry:
+                                    entry.category1 not in self._filter_exc_categories,
+                                    filtered_entries))       
         return filtered_entries
 
     def _extract_last_timestamp(
