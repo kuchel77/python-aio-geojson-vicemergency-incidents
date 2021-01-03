@@ -22,10 +22,3 @@ CUSTOM_ATTRIBUTE = "custom_attribute"
 
 
 URL = "http://emergency.vic.gov.au/public/osom-geojson.json"
-
-VALID_CATEGORIES = [
-    "Emergency Warning",
-    "Watch and Act",
-    "Advice",
-    "Not Applicable"
-]
