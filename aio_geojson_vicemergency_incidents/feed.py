@@ -34,7 +34,7 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
         """Return string representation of this feed."""
         return '<{}(home={}, url={}, radius={}, categories={})>'.format(
             self.__class__.__name__, self._home_coordinates, self._url,
-            self._filter_radius, self._filter_inc_categories, self._filter_exc_categories)
+            self._filter_radius, self._filter_inc_categories, self._filter_exc_categories, self._filter_statewide)
 
     def _new_entry(self, home_coordinates: Tuple[float, float], feature,
                    global_data: Dict) -> VICEmergencyIncidentsFeedEntry:
@@ -53,7 +53,7 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
         if self._filter_exc_categories:
             filtered_entries = list(filter(lambda entry:
                                     entry.category1 not in self._filter_exc_categories,
-                                    filtered_entries))       
+                                    filtered_entries))      
         return filtered_entries
 
     def _extract_last_timestamp(
