@@ -1,7 +1,6 @@
 # python-aio-geojson-vicemergency-incidents
 
 [![PyPi](https://img.shields.io/pypi/v/aio-geojson-vicemergency-incidents.svg)](https://pypi.python.org/pypi/aio-geojson-vicemergency-incidents)
-[![Version](https://img.shields.io/pypi/pyversions/aio-geojson-vicemegency-incidents.svg)](https://pypi.python.org/pypi/aio-geojson-vicemergency-incidents)
 
 This library provides convenient async access to the [VIC Emergency Website](https://www.emergency.vic.gov.au) incidents feed.
 
@@ -36,7 +35,9 @@ Status Codes
 | Filter     |                     | Description |
 |------------|---------------------|-------------|
 | Radius     | `filter_radius`     | Radius in kilometers around the home coordinates in which events from feed are included. |
-| Categories | `filter_categories` | Array of category names. Only events with a category matching any of these is included. |
+| Include Categories | `filter_inc_categories` | Array of category names. Only include events with a category matching any of these is included. |
+| Exclude Categories | `filter_exc_categories` | Array of category names. Exclude events with a category matching any of these is included. One example is previous burn areas from burning off, which have the category 'Burn Area' which last long after the event.|
+| Statewide | `filter_statewide` | True or False. If set to true, will ignore statewide events (such as the COVID-19 pandemic advice) which doesn't change often and may not be necessary to include. |
 
 **Example**
 ```python
@@ -45,13 +46,17 @@ from aiohttp import ClientSession
 from aio_geojson_vicemergency_incidents import VicEmergencyIncidentsFeed
 async def main() -> None:
     async with ClientSession() as websession:    
-        # Home Coordinates: Latitude: -33.0, Longitude: 150.0
+        # Home Coordinates: Latitude: -37.813629, Longitude: 144.963058 (Elizabeth St in the CBD)
         # Filter radius: 50 km
-        # Filter categories: 'Advice'
+        # Filter include categories: ''
+        # Filter exclude categories: 'Burn Advice'
+        # Filter statewide incidents: False 
         feed = VICEmergencyIncidentsFeed(websession, 
-                                                (-33.0, 150.0), 
+                                                (-37.813629, 144.963058), 
                                                 filter_radius=50, 
-                                                filter_categories=['Advice'])
+                                                filter_inc_categories=[''],
+                                                filter_exc_categories=['Burn Advice'],
+                                                filter_statewide=False)
         status, entries = await feed.update()
         print(status)
         print(entries)
