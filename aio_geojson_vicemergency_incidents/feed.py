@@ -21,7 +21,8 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
                  home_coordinates: Tuple[float, float],
                  filter_radius: float = None,
                  filter_inc_categories: List[str] = None,
-                 filter_exc_categories: List[str] = None):
+                 filter_exc_categories: List[str] = None,
+                 filter_statewide: bool = False):
         """Initialise this service."""
         super().__init__(websession,
                          home_coordinates,
@@ -29,6 +30,7 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
                          filter_radius=filter_radius)
         self._filter_inc_categories = filter_inc_categories
         self._filter_exc_categories = filter_exc_categories
+        self._filter_statewide = filter_statewide
 
     def __repr__(self):
         """Return string representation of this feed."""
@@ -53,7 +55,12 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
         if self._filter_exc_categories:
             filtered_entries = list(filter(lambda entry:
                                     entry.category1 not in self._filter_exc_categories,
-                                    filtered_entries))      
+                                    filtered_entries))    
+        if self._filter_statewide:
+            filtered_entries = list(filter(lambda entry:
+                                    entry.statewide not in ['Y'],
+                                    filtered_entries))   
+
         return filtered_entries
 
     def _extract_last_timestamp(

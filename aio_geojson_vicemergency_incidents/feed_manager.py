@@ -20,6 +20,7 @@ class VICEmergencyIncidentsFeedManager(FeedManagerBase):
                  filter_radius: float = None,
                  filter_inc_categories: List[str] = None,
                  filter_exc_categories: List[str] = None,
+                 filter_statewide: bool = False,
                  status_callback: Callable[[StatusUpdate],
                                            Awaitable[None]] = None):
         """Initialize the VICEmergency Feed Manager."""
@@ -28,7 +29,8 @@ class VICEmergencyIncidentsFeedManager(FeedManagerBase):
             coordinates,
             filter_radius=filter_radius,
             filter_inc_categories=filter_inc_categories,
-            filter_exc_categories=filter_exc_categories)
+            filter_exc_categories=filter_exc_categories,
+            filter_statewide=filter_statewide)
         super().__init__(feed,
                          generate_callback,
                          update_callback,
