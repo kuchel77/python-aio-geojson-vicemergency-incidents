@@ -56,7 +56,7 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
             filtered_entries = list(filter(lambda entry:
                                     entry.category1 not in self._filter_exc_categories,
                                     filtered_entries))    
-        if self._filter_statewide:
+        if not self._filter_statewide:
             filtered_entries = list(filter(lambda entry:
                                     entry.statewide not in ['Y'],
                                     filtered_entries))   

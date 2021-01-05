@@ -17,7 +17,7 @@ ATTR_TEXT = "text"
 ATTR_STATUS = "status"
 ATTR_TYPE = "feedtype"
 ATTR_STATEWIDE = "statewide"
-
+ATTR_WEBBODY = "webBody"
 CUSTOM_ATTRIBUTE = "custom_attribute"
 
 
