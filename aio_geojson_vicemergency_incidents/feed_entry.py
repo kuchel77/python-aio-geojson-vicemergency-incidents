@@ -1,4 +1,5 @@
 """NSW Rural Fire Service Incidents feed entry."""
+from markdownify import markdownify
 import pytz
 import calendar
 from datetime import datetime
@@ -9,12 +10,13 @@ import re
 from typing import Optional, Tuple
 from aio_geojson_client.feed_entry import FeedEntry
 from geojson import Feature
+from markdownify import markdownify
 
 from .consts import ATTR_CATEGORY1, ATTR_CATEGORY2, ATTR_DESCRIPTION, ATTR_ID, \
     ATTR_PUB_DATE,  ATTR_SOURCE_TITLE, ATTR_SOURCE_ORG, ATTR_ESTA_ID, \
     ATTR_RESOURCES, ATTRIBUTION, ATTR_SIZE, ATTR_SIZE_FMT, ATTR_LOCATION, \
     ATTR_STATEWIDE, ATTR_TEXT, ATTR_STATUS, ATTR_TYPE, ATTR_STATEWIDE, \
-    ATTR_WEBBODY, CUSTOM_ATTRIBUTE 
+    ATTR_WEBBODY, CUSTOM_ATTRIBUTE
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -136,6 +138,13 @@ class VICEmergencyIncidentsFeedEntry(FeedEntry):
         return self._search_in_properties(ATTR_ESTA_ID)
 
     @property
-    def webbody(self) -> str:
+    def advice_html(self) -> str:
         """Return the responsible agency of this entry."""
         return self._search_in_properties(ATTR_WEBBODY)
+
+    @property
+    def advice_markdown(self) -> str:
+        """Return the responsible agency of this entry."""
+        if self._search_in_properties(ATTR_WEBBODY) == None:
+            return None
+        return markdownify(self._search_in_properties(ATTR_WEBBODY))

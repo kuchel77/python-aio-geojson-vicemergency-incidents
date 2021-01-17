@@ -20,5 +20,4 @@ ATTR_STATEWIDE = "statewide"
 ATTR_WEBBODY = "webBody"
 CUSTOM_ATTRIBUTE = "custom_attribute"
 
-
 URL = "http://emergency.vic.gov.au/public/osom-geojson.json"

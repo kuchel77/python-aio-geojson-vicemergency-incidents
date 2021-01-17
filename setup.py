@@ -12,6 +12,7 @@ REQUIRES = [
     'aio_geojson_client>=0.13',
     'aiohttp>=3.5.4',
     'pytz>=2019.01',
+    'markdownify'
 ]
 
 
