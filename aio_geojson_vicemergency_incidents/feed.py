@@ -1,8 +1,7 @@
-"""NSW Rural Fire Service Incidents feed."""
+"""VIC Emergency Incidents feed."""
 import logging
 from typing import List, Optional, Tuple, Dict
 from datetime import datetime
-
 from aio_geojson_client.feed import GeoJsonFeed
 from aiohttp import ClientSession
 from geojson import FeatureCollection
@@ -34,9 +33,10 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
 
     def __repr__(self):
         """Return string representation of this feed."""
-        return '<{}(home={}, url={}, radius={}, categories={})>'.format(
+        return '<{}(home={}, url={}, radius={}, inc_cat={})>, exc_cat={} statewide={}'.format(
             self.__class__.__name__, self._home_coordinates, self._url,
-            self._filter_radius, self._filter_inc_categories, self._filter_exc_categories, self._filter_statewide)
+            self._filter_radius, self._filter_inc_categories,
+            self._filter_exc_categories, self._filter_statewide)
 
     def _new_entry(self, home_coordinates: Tuple[float, float], feature,
                    global_data: Dict) -> VICEmergencyIncidentsFeedEntry:
@@ -50,16 +50,16 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
         filtered_entries = super()._filter_entries(entries)
         if self._filter_inc_categories:
             filtered_entries = list(filter(lambda entry:
-                                    entry.category1 in self._filter_inc_categories,
-                                    filtered_entries))
+                                           entry.category1 in self._filter_inc_categories,
+                                           filtered_entries))
         if self._filter_exc_categories:
             filtered_entries = list(filter(lambda entry:
-                                    entry.category1 not in self._filter_exc_categories,
-                                    filtered_entries))    
+                                           entry.category1 not in self._filter_exc_categories,
+                                           filtered_entries))
         if not self._filter_statewide:
             filtered_entries = list(filter(lambda entry:
-                                    entry.statewide not in ['Y'],
-                                    filtered_entries))   
+                                           entry.statewide not in ['Y'],
+                                           filtered_entries))
 
         return filtered_entries
 
@@ -71,7 +71,7 @@ class VICEmergencyIncidentsFeed(GeoJsonFeed[VICEmergencyIncidentsFeedEntry]):
         if feed_entries:
             dates = sorted(filter(
                 None, [entry.publication_date for entry in feed_entries]),
-                reverse=True)
+                           reverse=True)
             return dates[0]
         return None
 

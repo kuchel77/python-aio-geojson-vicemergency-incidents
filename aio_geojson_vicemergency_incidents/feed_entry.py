@@ -1,21 +1,19 @@
-"""NSW Rural Fire Service Incidents feed entry."""
-from markdownify import markdownify
-import pytz
-import calendar
-from datetime import datetime
-from time import strptime
-
+"""VIC Emergency Incidents feed entry."""
+from typing import Optional, Tuple
 import logging
 import re
-from typing import Optional, Tuple
+from time import strptime
+import calendar
+from datetime import datetime
+import pytz
 from aio_geojson_client.feed_entry import FeedEntry
 from geojson import Feature
 from markdownify import markdownify
 
-from .consts import ATTR_CATEGORY1, ATTR_CATEGORY2, ATTR_DESCRIPTION, ATTR_ID, \
-    ATTR_PUB_DATE,  ATTR_SOURCE_TITLE, ATTR_SOURCE_ORG, ATTR_ESTA_ID, \
+from .consts import ATTR_CATEGORY1, ATTR_CATEGORY2, ATTR_ID, \
+    ATTR_PUB_DATE, ATTR_SOURCE_TITLE, ATTR_SOURCE_ORG, ATTR_ESTA_ID, \
     ATTR_RESOURCES, ATTRIBUTION, ATTR_SIZE, ATTR_SIZE_FMT, ATTR_LOCATION, \
-    ATTR_STATEWIDE, ATTR_TEXT, ATTR_STATUS, ATTR_TYPE, ATTR_STATEWIDE, \
+    ATTR_STATEWIDE, ATTR_TEXT, ATTR_STATUS, ATTR_TYPE, \
     ATTR_WEBBODY, CUSTOM_ATTRIBUTE
 
 _LOGGER = logging.getLogger(__name__)
@@ -106,7 +104,7 @@ class VICEmergencyIncidentsFeedEntry(FeedEntry):
     def size_fmt(self) -> str:
         """Return the size of this entry."""
         return self._search_in_properties(ATTR_SIZE_FMT)
-    
+
     @property
     def statewide(self) -> str:
         """Return the size of this entry."""
@@ -121,16 +119,11 @@ class VICEmergencyIncidentsFeedEntry(FeedEntry):
     def source_organisation_title(self) -> str:
         """Return the responsible agency of this entry."""
         return self._search_in_properties(ATTR_SOURCE_TITLE)
-    
+
     @property
     def resources(self) -> str:
         """Return the responsible agency of this entry."""
         return self._search_in_properties(ATTR_RESOURCES)
-
-    @property
-    def description(self) -> str:
-        """Return the responsible agency of this entry."""
-        return self._search_in_properties(ATTR_DESCRIPTION)
 
     @property
     def etsa_id(self) -> str:
@@ -145,6 +138,6 @@ class VICEmergencyIncidentsFeedEntry(FeedEntry):
     @property
     def advice_markdown(self) -> str:
         """Return the responsible agency of this entry."""
-        if self._search_in_properties(ATTR_WEBBODY) == None:
+        if self._search_in_properties(ATTR_WEBBODY) is None:
             return None
         return markdownify(self._search_in_properties(ATTR_WEBBODY))
