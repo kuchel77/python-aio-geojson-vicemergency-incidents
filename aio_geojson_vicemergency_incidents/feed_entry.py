@@ -140,4 +140,5 @@ class VICEmergencyIncidentsFeedEntry(FeedEntry):
         """Return the responsible agency of this entry."""
         if self._search_in_properties(ATTR_WEBBODY) is None:
             return None
-        return markdownify(self._search_in_properties(ATTR_WEBBODY))
+        return markdownify(self._search_in_properties(ATTR_WEBBODY)).replace("\"","'")
+        
