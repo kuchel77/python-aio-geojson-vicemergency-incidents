@@ -1,4 +1,7 @@
 # Changes
+## 0.7 (25/01/2024)
+
+Adjust " to ' in the markdown section so that it doesn't break when trying to use it with JSON and webhoooks.
 
 ## 0.4 (05/01/2021)
 
